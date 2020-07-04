@@ -1,5 +1,5 @@
 <h1>Date</h1>
-<h2><span color="#00ffff" style="color: #00ffff;">7月2號</span></h2>
+<h2>7月2號</h2>
 <p><span style="color: #000000;">    進度 : </span><span style="color: #000000;">目前在機台的Z軸校正上想要讓他對齊底板 ( 一張紙的空隙 ) ，但是發現裡面的預寫程式設定的 Z:337 一直無法被改變，所以我和國龍想要導入裡面的程式並加以修改，於是根據學長留下的專題報告書中所寫的內容想要導入 Configuration.h 檔案去修改，但是發現程式內容與書上有很大區別 (華倞學長後來跟我們說那是因為有很多新的功能 ) ，於是想要用 pronterface 去動它的Z軸設定。之後還有平台的不平解決方案代處理。</span></p>
 <p><span style="color: #000000;"><img alt="" height="207" src="/images/explorer_QpGSAL7QRe.png" width="600"/></span></p>
 <p><span style="color: #000000;"><img alt="" height="451" src="/images/explorer_JC4MsWfUWh.png" width="800"/></span></p>
@@ -19,5 +19,167 @@
 <p>(c) keras 、 pytorch</p>
 <p></p>
 <p></p>
+<h2>7月4號</h2>
+<p>目標 : <span>推導 delta printer 的正向與逆向運動方程式, 弄懂之後, 寫網誌或整理成網頁內容</span></p>
+<p><a href="https://www.marginallyclever.com/other/samples/fk-ik-test.html">https://www.marginallyclever.com/other/samples/fk-ik-test.html</a></p>
+<p><a class="link" href="https://gist.github.com/hugs/4231272" rel="nofollow noopener noreferrer" target="_blank">https://gist.github.com/hugs/4231272</a></p>
 <p></p>
 <p></p>
+<p><img alt="rotary Delta Robot Calculation" src="https://www.marginallyclever.com/other/samples/rotaryDeltaCalc.JPG"/></p>
+<p>圖源 : <a href="https://www.marginallyclever.com/other/samples/fk-ik-test.html">https://www.marginallyclever.com/other/samples/fk-ik-test.html</a></p>
+<p></p>
+<pre class="brush:py;auto-links:false;toolbar:false" contenteditable="false"># Original code from
+# http://forums.trossenrobotics.com/tutorials/introduction-129/delta-robot-kinematics-3276/
+# License: MIT
+
+import math
+
+# Specific geometry for bitbeambot:
+# http://flic.kr/p/cYaQah
+e  =  26.0
+f  =  69.0
+re = 128.0
+rf =  88.0
+
+# Trigonometric constants
+s      = 165*2
+sqrt3  = math.sqrt(3.0)
+pi     = 3.141592653
+sin120 = sqrt3 / 2.0
+cos120 = -0.5
+tan60  = sqrt3
+sin30  = 0.5
+tan30  = 1.0 / sqrt3
+
+# Forward kinematics: (theta1, theta2, theta3) -&gt; (x0, y0, z0)
+#   Returned {error code,theta1,theta2,theta3}
+def forward(theta1, theta2, theta3):
+    x0 = 0.0
+    y0 = 0.0
+    z0 = 0.0
+    
+    t = (f-e) * tan30 / 2.0
+    dtr = pi / 180.0
+    
+    theta1 *= dtr
+    theta2 *= dtr
+    theta3 *= dtr
+    
+    y1 = -(t + rf*math.cos(theta1) )
+    z1 = -rf * math.sin(theta1)
+    
+    y2 = (t + rf*math.cos(theta2)) * sin30
+    x2 = y2 * tan60
+    z2 = -rf * math.sin(theta2)
+    
+    y3 = (t + rf*math.cos(theta3)) * sin30
+    x3 = -y3 * tan60
+    z3 = -rf * math.sin(theta3)
+    
+    dnm = (y2-y1)*x3 - (y3-y1)*x2
+    
+    w1 = y1*y1 + z1*z1
+    w2 = x2*x2 + y2*y2 + z2*z2
+    w3 = x3*x3 + y3*y3 + z3*z3
+    
+    # x = (a1*z + b1)/dnm
+    a1 = (z2-z1)*(y3-y1) - (z3-z1)*(y2-y1)
+    b1= -( (w2-w1)*(y3-y1) - (w3-w1)*(y2-y1) ) / 2.0
+    
+    # y = (a2*z + b2)/dnm
+    a2 = -(z2-z1)*x3 + (z3-z1)*x2
+    b2 = ( (w2-w1)*x3 - (w3-w1)*x2) / 2.0
+    
+    # a*z^2 + b*z + c = 0
+    a = a1*a1 + a2*a2 + dnm*dnm
+    b = 2.0 * (a1*b1 + a2*(b2 - y1*dnm) - z1*dnm*dnm)
+    c = (b2 - y1*dnm)*(b2 - y1*dnm) + b1*b1 + dnm*dnm*(z1*z1 - re*re)
+    
+    # discriminant
+    d = b*b - 4.0*a*c
+    if d &lt; 0.0:
+        return [1,0,0,0] # non-existing povar. return error,x,y,z
+    
+    z0 = -0.5*(b + math.sqrt(d)) / a
+    x0 = (a1*z0 + b1) / dnm
+    y0 = (a2*z0 + b2) / dnm
+
+    return [0,x0,y0,z0]
+
+# Inverse kinematics
+# Helper functions, calculates angle theta1 (for YZ-pane)
+def angle_yz(x0, y0, z0, theta=None):
+    y1 = -0.5*0.57735*f # f/2 * tg 30
+    y0 -= 0.5*0.57735*e # shift center to edge
+    # z = a + b*y
+    a = (x0*x0 + y0*y0 + z0*z0 + rf*rf - re*re - y1*y1) / (2.0*z0)
+    b = (y1-y0) / z0
+
+    # discriminant
+    d = -(a + b*y1)*(a + b*y1) + rf*(b*b*rf + rf)
+    if d&lt;0:
+        return [1,0] # non-existing povar.  return error, theta
+
+    yj = (y1 - a*b - math.sqrt(d)) / (b*b + 1) # choosing outer povar
+    zj = a + b*yj
+    theta = math.atan(-zj / (y1-yj)) * 180.0 / pi + (180.0 if yj&gt;y1 else 0.0)
+    
+    return [0,theta] # return error, theta
+
+def inverse(x0, y0, z0):
+    theta1 = 0
+    theta2 = 0
+    theta3 = 0
+    status = angle_yz(x0,y0,z0)
+
+    if status[0] == 0:
+        theta1 = status[1]
+        status = angle_yz(x0*cos120 + y0*sin120,
+                                   y0*cos120-x0*sin120,
+                                   z0,
+                                   theta2)
+    if status[0] == 0:
+        theta2 = status[1]
+        status = angle_yz(x0*cos120 - y0*sin120,
+                                   y0*cos120 + x0*sin120,
+                                   z0,
+                                   theta3)
+    theta3 = status[1]
+
+    return [status[0],theta1,theta2,theta3]</pre>
+<p><br/><br/></p>
+<p>程式來源 : <a href="/get_page/7%E6%9C%884%E8%99%9F/[gist.github.com/hugs/4231272">[gist.github.com/hugs/4231272</a></p>
+<p></p>
+<h3>程式與正反向運動方程式</h3>
+<p>line 5 :</p>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">import math</pre>
+<p>引入 math 庫</p>
+<hr/>
+<p>line9~12 :</p>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">e  =  26.0
+f  =  69.0
+re = 128.0
+rf =  88.0</pre>
+<p>機構長度</p>
+<hr/>
+<p><span>line15~22 :</span></p>
+<p><span>三角函數</span></p>
+<hr/>
+<p>lline 32 :</p>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">dtr = pi / 180.0</pre>
+<p>徑度轉換</p>
+<hr/>
+<p>line 34~36</p>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">theta1 *= dtr
+theta2 *= dtr
+theta3 *= dtr</pre>
+<p> *= 是python語法 ，指的是 θ = θ <span> * </span>pi / 180</p>
+<hr/>
+<p></p>
+<p>line 51~53</p>
+<pre class="brush:html;auto-links:false;toolbar:false" contenteditable="false">w1 = y1*y1 + z1*z1
+w2 = x2*x2 + y2*y2 + z2*z2
+w3 = x3*x3 + y3*y3 + z3*z3</pre>
+<p></p>
+<p>計算各軸可觸碰到的範圍</p>
+<p>W1、2、3指的是三軸最大極限構成的長方體</p>
