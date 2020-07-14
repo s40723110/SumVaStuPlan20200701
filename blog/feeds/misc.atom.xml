@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>40723110SVSP - misc</title><link href="./" rel="alternate"></link><link href=".%5Cfeeds/misc.atom.xml" rel="self"></link><id>./</id><updated>2020-07-14T13:00:00+08:00</updated><entry><title>學習磁區相關資訊與整理教室相關資源</title><link href=".%5C20000713.html" rel="alternate"></link><published>2020-07-14T13:00:00+08:00</published><updated>2020-07-14T13:00:00+08:00</updated><author><name>40723110</name></author><id>tag:None,2020-07-14:.\20000713.html</id><summary type="html"></summary><content type="html">&lt;!-- PELICAN_END_SUMMARY --&gt;</content><category term="misc"></category></entry><entry><title>Pelican 備份至 blogger 之問題與總結</title><link href=".%5C20200710.html" rel="alternate"></link><published>2020-07-14T11:37:00+08:00</published><updated>2020-07-14T11:37:00+08:00</updated><author><name>40723110</name></author><id>tag:None,2020-07-14:.\20200710.html</id><content type="html">&lt;p&gt;在實作過程中因為以前很少接觸網路所以很多抽象的概念沒有弄懂 , 但是自己卻慢慢發現如果把資訊畫成一張圖 , 資訊的吸收速度就會變快 , 所以在詢問老師的意見後打算用 [dia]: http://dia-installer.de/download/index.html.en 、[gimp]: https://www.gimp.org/downloads/ 和 [inscape]: https://inkscape.org/zh-hant/release/inkscape-0.92.4/
+加強我的資訊統整能力。&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;在 2020-07-09 做的主題中遇到的問題 :&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;檔案找不到位置 &lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;程式中 " ./../ "指的是 "從當前檔案位置跳兩層" 出去找資料 , 一開始沒有注意到也根本不知道所以就只能對著程式乾瞪眼以及原地打轉。&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;資料上傳錯誤&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;上傳後找不到該資料其中一個原因是 leo 操作時沒有正常儲存 , markdown 中的資料遺失等等 , 反之多出檔案時也需檢查 markdown 狀態&lt;/p&gt;
+</content><category term="misc"></category></entry><entry><title>參加暑期樂高營</title><link href=".%5C2000071112.html" rel="alternate"></link><published>2020-07-14T11:00:00+08:00</published><updated>2020-07-14T11:00:00+08:00</updated><author><name>40723110</name></author><id>tag:None,2020-07-14:.\2000071112.html</id><content type="html">&lt;p&gt;這次活動的參與動機主要是由主辦方老師的專題研究生的邀約 , 在整個活動過程中不能算是輕鬆 , 因為是活動對象是國小生 , 須個別注意他們的心情之外還需要帶動遊戲氣氛 。&lt;/p&gt;
+&lt;p&gt;2020/07/11 ~ 202007/12活動心得 : &lt;/p&gt;
+&lt;p&gt;一開始的時候是還蠻辛苦的，因為跟小朋友第一次見面，要打開小孩子的心房不太容易，他們也不會有 "給你面子" 這個觀念，所以在開頭之能把自己的尊嚴丟一邊，這個過程自己當然也有點抗拒，但是我覺得更貼切的名詞是"成長"，因為有他們所以我在情緒控制上有所成長。
+其實這樣一整天下來，不外乎就是燃燒自己的包容心與服務的熱忱去給小朋友一個美好的回憶，但是在這過程中，所有的經歷、歷練，甚至還有看著小朋友純真的反應都給我們不少的歡樂，在這其中小朋友們也給我們製造了具有意義的回憶。&lt;/p&gt;
+</content><category term="misc"></category></entry><entry><title>Python 程式利用Google blogger API 把 Pelican 內容傳送至 blogger</title><link href=".%5C20200709.html" rel="alternate"></link><published>2020-07-04T11:37:00+08:00</published><updated>2020-07-04T11:37:00+08:00</updated><author><name>40723110</name></author><id>tag:None,2020-07-04:.\20200709.html</id><summary type="html">&lt;p&gt;先利用 [程式碼]: https://2019wcm.blogspot.com/2019/03/posted-via-python.html 測試在啟用 [Google blogger API]: https://console.developers.google.com/apis/library 之後得到的 json 檔 (執行此步驟需先用 pip 安裝 google-api-python-client 和oauth2client), 無誤後再利用 [project2020-1/tools]: https://github.com/mdecourse/project2020-1/tree/master/tools 裡的 blogger json to pickle.py 與 gmail json to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;先利用 [程式碼]: https://2019wcm.blogspot.com/2019/03/posted-via-python.html 測試在啟用 [Google blogger API]: https://console.developers.google.com/apis/library 之後得到的 json 檔 (執行此步驟需先用 pip 安裝 google-api-python-client 和oauth2client), 無誤後再利用 [project2020-1/tools]: https://github.com/mdecourse/project2020-1/tree/master/tools 裡的 blogger json to pickle.py 與 gmail json to pickle.py 匯出成的 pickle 檔以及 dat 檔同樣放在倉儲外部。&lt;/p&gt;
+&lt;h2&gt;接著參考 https://github.com/mdecourse/project2020-1 的 pelican.leo 建立 button , 最後再檢查外部檔案是否配合程式碼中指定檔案的位置及名稱 , 最後再修改 blog_id即可。&lt;/h2&gt;</content><category term="misc"></category></entry></feed>

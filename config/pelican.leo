@@ -73,11 +73,10 @@
 <v t="leo.20200710030311.1"><vh>@edit 20200704-2.md</vh></v>
 <v t="leo.20200710030316.1"><vh>@edit 20200705.md</vh></v>
 <v t="leo.20200710030326.1"><vh>@edit 20200706.md</vh></v>
-<v t="leo.20200710030507.1"><vh>@edit 20200708.md</vh></v>
 <v t="leo.20200710030509.1"><vh>@edit 20200709.md</vh></v>
-<v t="leo.20180909205246.1"><vh>@edit 20200710.md</vh>
-<v t="leo.20200710030125.1"><vh>4002233055699802088</vh></v>
-</v>
+<v t="leo.20180909205246.1"><vh>@edit 20200710.md</vh></v>
+<v t="leo.20200714113632.1"><vh>@edit 2020071112.md</vh></v>
+<v t="leo.20200714045832.1"><vh>@edit 20200713.md</vh></v>
 </v>
 </v>
 </v>
@@ -111,22 +110,6 @@ g.es("admin pelican Github 執行完畢")
 <t tx="leo.20180115115910.1"></t>
 <t tx="leo.20180115142025.1"></t>
 <t tx="leo.20180423103639.1"></t>
-<t tx="leo.20180909205246.1">@language md
----
-Title: 代理主機維護策略
-Date: 2020-07-10 11:00
-Category: Network
-Tags: Proxy
-Slug: 20200710
-Author: 40723110
----
-test
-
-
-&lt;!-- PELICAN_END_SUMMARY --&gt;
-
-
-</t>
 <t tx="leo.20200709115245.1">@language python
 from markdown import markdown
 from oauth2client import client
@@ -310,7 +293,6 @@ try:
 except(client.AccessTokenRefreshError):
     g.es("error")
 </t>
-<t tx="leo.20200710030125.1"></t>
 <t tx="yen.20170108171605.1"></t>
 <t tx="yen.20170108171605.2">QTreeWidget {
     /* These apply to the selected item, but not to editing items.*/
