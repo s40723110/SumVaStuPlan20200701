@@ -73,9 +73,15 @@
 <v t="leo.20200710030311.1"><vh>@edit 20200704-2.md</vh></v>
 <v t="leo.20200710030316.1"><vh>@edit 20200705.md</vh></v>
 <v t="leo.20200710030326.1"><vh>@edit 20200706.md</vh></v>
-<v t="leo.20200710030509.1"><vh>@edit 20200709.md</vh></v>
-<v t="leo.20180909205246.1"><vh>@edit 20200710.md</vh></v>
-<v t="leo.20200714113632.1"><vh>@edit 2020071112.md</vh></v>
+<v t="leo.20200710030509.1"><vh>@edit 20200709.md</vh>
+<v t="leo.20200714050153.1"><vh>3324174227280654680</vh></v>
+</v>
+<v t="leo.20180909205246.1"><vh>@edit 20200710.md</vh>
+<v t="leo.20200714050158.1"><vh>5819340504232715606</vh></v>
+</v>
+<v t="leo.20200714113632.1"><vh>@edit 2020071112.md</vh>
+<v t="leo.20200714050205.1"><vh>3371963212074945058</vh></v>
+</v>
 <v t="leo.20200714045832.1"><vh>@edit 20200713.md</vh></v>
 </v>
 </v>
@@ -110,6 +116,33 @@ g.es("admin pelican Github 執行完畢")
 <t tx="leo.20180115115910.1"></t>
 <t tx="leo.20180115142025.1"></t>
 <t tx="leo.20180423103639.1"></t>
+<t tx="leo.20180909205246.1">@language md
+---
+Title:  Pelican 備份至 blogger 之問題與總結
+Date: 2020-07-14 11:37
+Category: 
+Tags: 
+Slug: 20200710
+Author: 40723110
+---
+
+在實作過程中因為以前很少接觸網路所以很多抽象的概念沒有弄懂 , 但是自己卻慢慢發現如果把資訊畫成一張圖 , 資訊的吸收速度就會變快 , 所以在詢問老師的意見後打算用 [dia]: http://dia-installer.de/download/index.html.en 、[gimp]: https://www.gimp.org/downloads/ 和 [inscape]: https://inkscape.org/zh-hant/release/inkscape-0.92.4/
+加強我的資訊統整能力。
+----
+在 2020-07-09 做的主題中遇到的問題 :
+
+1. 檔案找不到位置 
+
+ 程式中 " ./../ "指的是 "從當前檔案位置跳兩層" 出去找資料 , 一開始沒有注意到也根本不知道所以就只能對著程式乾瞪眼以及原地打轉。
+ 
+ 2. 資料上傳錯誤
+ 
+ 上傳後找不到該資料其中一個原因是 leo 操作時沒有正常儲存 , markdown 中的資料遺失等等 , 反之多出檔案時也需檢查 markdown 狀態
+ 
+&lt;!-- PELICAN_END_SUMMARY --&gt;
+
+
+</t>
 <t tx="leo.20200709115245.1">@language python
 from markdown import markdown
 from oauth2client import client
@@ -292,6 +325,46 @@ try:
     g.es("已經將更新資料送往 M Blogger!")
 except(client.AccessTokenRefreshError):
     g.es("error")
+</t>
+<t tx="leo.20200710030509.1">@language md
+---
+Title: Python 程式利用Google blogger API 把 Pelican 內容傳送至 blogger
+Date: 2020-07-04 11:37
+Category: 
+Tags: 
+Slug: 20200709
+Author: 40723110
+---
+
+先利用 [程式碼]: https://2019wcm.blogspot.com/2019/03/posted-via-python.html 測試在啟用 [Google blogger API]: https://console.developers.google.com/apis/library 之後得到的 json 檔 (執行此步驟需先用 pip 安裝 google-api-python-client 和oauth2client), 無誤後再把利用 [project2020-1/tools]: https://github.com/mdecourse/project2020-1/tree/master/tools 裡的 blogger json to pickle.py 與 gmail json to pickle.py 匯出成的 pickle 檔以及 dat 檔同樣放在倉儲外部。
+
+接著參考 https://github.com/mdecourse/project2020-1 的 pelican.leo 建立 button , 最後再檢查外部檔案是否配合程式碼中指定檔案的位置及名稱 , 並修改 blog_id即可。
+---
+</t>
+<t tx="leo.20200714050153.1"></t>
+<t tx="leo.20200714050158.1"></t>
+<t tx="leo.20200714050205.1"></t>
+<t tx="leo.20200714113632.1">@language md
+---
+Title:  參加暑期樂高營
+Date: 2020-07-14 11:00
+Category:
+Tags: 
+Slug: 2000071112
+Author: 40723110
+---
+
+
+這次活動的參與動機主要是由主辦方老師的專題研究生的邀約 , 在整個活動過程中不能算是輕鬆 , 因為是活動對象是國小生 , 須個別注意他們的心情之外還需要帶動遊戲氣氛 。
+
+2020/07/11 ~ 202007/12活動心得 : 
+
+一開始的時候是還蠻辛苦的，因為跟小朋友第一次見面，要打開小孩子的心房不太容易，他們也不會有 "給你面子" 這個觀念，所以在開頭之能把自己的尊嚴丟一邊，這個過程自己當然也有點抗拒，但是我覺得更貼切的名詞是"成長"，因為有他們所以我在情緒控制上有所成長。
+其實這樣一整天下來，不外乎就是燃燒自己的包容心與服務的熱忱去給小朋友一個美好的回憶，但是在這過程中，所有的經歷、歷練，甚至還有看著小朋友純真的反應都給我們不少的歡樂，在這其中小朋友們也給我們製造了具有意義的回憶。
+
+&lt;!-- PELICAN_END_SUMMARY --&gt;
+
+
 </t>
 <t tx="yen.20170108171605.1"></t>
 <t tx="yen.20170108171605.2">QTreeWidget {
